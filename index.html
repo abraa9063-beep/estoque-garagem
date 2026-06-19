@@ -458,6 +458,40 @@ tbody td.cl { text-align:left; }
 .rec-input.alterado { border-color: #2E7D32; background: #F0F9F1; color: #2E7D32; }
 .rec-saldo-atual { font-size: 11px; color: var(--cinza-txt); margin-left: 2px; }
 
+
+/* NF Upload mini */
+.nf-upload-mini {
+  border: 1.5px dashed var(--cinza-bdr);
+  border-radius: 4px;
+  padding: 7px 12px;
+  font-size: 12px;
+  color: var(--azul-med);
+  cursor: pointer;
+  text-align: center;
+  min-width: 130px;
+  transition: border-color .15s, background .15s;
+  white-space: nowrap;
+}
+.nf-upload-mini:hover { border-color: var(--azul-med); background: var(--azul-leve); }
+.nf-upload-mini.tem-arquivo { border-color: #2E7D32; background: #F0F9F1; color: #2E7D32; font-weight: 600; }
+
+.nf-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #FFF3E0;
+  color: #E65100;
+  border: 1px solid #FFCC80;
+  border-radius: 4px;
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+.nf-badge:hover { background: #FFE0B2; }
+.nf-sem-arquivo { color: var(--cinza-txt); font-size: 11px; font-style: italic; }
+
 </style>
 </head>
 <body>
@@ -615,6 +649,13 @@ tbody td.cl { text-align:left; }
     <div class="campo"><label>Quantidade</label><input type="number" id="ent-qtd" placeholder="0" min="1" style="width:88px"></div>
     <div class="campo"><label>Recebido por</label><input type="text" id="ent-resp" placeholder="Nome" style="width:200px"></div>
     <div class="campo"><label>Observação</label><input type="text" id="ent-obs" placeholder="Fornecedor, NF..." style="width:200px"></div>
+    <div class="campo">
+      <label>Nota Fiscal (PDF)</label>
+      <div class="nf-upload-mini" onclick="document.getElementById('ent-nf-input').click()">
+        <input type="file" id="ent-nf-input" accept="application/pdf" style="display:none" onchange="selecionarNF(this)">
+        <span id="ent-nf-label">Anexar PDF</span>
+      </div>
+    </div>
     <button class="btn btn-primary" onclick="adicionarEntrada()" style="margin-bottom:1px">Registrar Entrada</button>
   </div>
 
@@ -627,7 +668,8 @@ tbody td.cl { text-align:left; }
     <table>
       <thead><tr>
         <th>Data</th><th>Código</th><th class="cl">Produto</th>
-        <th>Quantidade</th><th class="cl">Recebido por</th><th class="cl">Observação</th><th></th>
+        <th>Quantidade</th><th class="cl">Recebido por</th><th class="cl">Observação</th>
+        <th>Nota Fiscal</th><th></th>
       </tr></thead>
       <tbody id="tbody-entradas"></tbody>
     </table>
@@ -790,6 +832,7 @@ async function sbUpsert(table, body) {
 let estoque   = [];
 let retiradas = [];
 let entradas  = [];
+let nfFileAtual = null;
 let contagem  = {};
 
 function showLoading(msg='Carregando...') {
@@ -828,7 +871,8 @@ async function carregarTudo() {
     }));
     entradas = ent.map(e => ({
       id: e.id, data: e.data, cod: e.cod,
-      prod: e.prod, qtd: e.qtd, resp: e.resp, obs: e.obs||''
+      prod: e.prod, qtd: e.qtd, resp: e.resp, obs: e.obs||'',
+      nfUrl: e.nf_url||'', nfNome: e.nf_nome||''
     }));
     contagem  = cnt[0] || {};
     const dc = document.getElementById('data-contagem');
@@ -901,6 +945,36 @@ function processarFoto(file) {
   document.getElementById('foto-trocar').style.display = 'block';
   // Store filename as placeholder in hidden field
   document.getElementById('m-foto-b64').value = '__pending__:' + file.name;
+}
+
+function selecionarNF(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.type !== 'application/pdf') { alert('Selecione um arquivo PDF.'); input.value=''; return; }
+  nfFileAtual = file;
+  const lbl = document.getElementById('ent-nf-label');
+  lbl.textContent = file.name.length > 18 ? file.name.slice(0,15)+'...' : file.name;
+  document.getElementById('ent-nf-input').closest('.nf-upload-mini').classList.add('tem-arquivo');
+}
+
+async function uploadNF(file, cod, data) {
+  const ext = file.name.split('.').pop().toLowerCase() || 'pdf';
+  const filename = `${cod}_${data}_${Date.now()}.${ext}`;
+  const res = await fetch(
+    `${SB_URL}/storage/v1/object/notas-fiscais/${filename}`,
+    {
+      method: 'POST',
+      headers: {
+        'apikey': SB_KEY,
+        'Authorization': 'Bearer ' + SB_KEY,
+        'Content-Type': 'application/pdf',
+        'x-upsert': 'true'
+      },
+      body: file
+    }
+  );
+  if (!res.ok) throw new Error('Falha no upload da NF: ' + await res.text());
+  return `${SB_URL}/storage/v1/object/public/notas-fiscais/${filename}`;
 }
 
 async function uploadFoto(file, cod) {
@@ -1164,12 +1238,27 @@ async function adicionarEntrada() {
   const obs  = document.getElementById('ent-obs').value.trim();
   if (!data||!cod||isNaN(qtd)||qtd<=0||!resp) { alert('Preencha Data, Código, Quantidade e Recebido por.'); return; }
   const peca = estoque.find(p=>p.cod===cod);
+
   showLoading('Registrando entrada...');
   try {
-    await sbPost('entradas', { data, cod, prod:peca.prod, qtd, resp, obs });
+    let nfUrl = '', nfNome = '';
+    if (nfFileAtual) {
+      showLoading('Enviando nota fiscal...');
+      nfUrl  = await uploadNF(nfFileAtual, cod, data);
+      nfNome = nfFileAtual.name;
+    }
+    showLoading('Salvando entrada...');
+    await sbPost('entradas', { data, cod, prod:peca.prod, qtd, resp, obs, nf_url: nfUrl, nf_nome: nfNome });
+
     document.getElementById('ent-qtd').value='';
     document.getElementById('ent-resp').value='';
     document.getElementById('ent-obs').value='';
+    nfFileAtual = null;
+    document.getElementById('ent-nf-input').value='';
+    const lbl = document.getElementById('ent-nf-label');
+    lbl.textContent = 'Anexar PDF';
+    lbl.closest('.nf-upload-mini').classList.remove('tem-arquivo');
+
     await carregarTudo();
   } catch(e) { showErro(e.message); hideLoading(); }
 }
@@ -1189,14 +1278,20 @@ function renderEntradas(filtro='') {
   const f = filtro.toLowerCase();
   const lista = entradas.filter(e =>
     !f||e.cod.toLowerCase().includes(f)||e.prod.toLowerCase().includes(f)||e.resp.toLowerCase().includes(f));
-  tbody.innerHTML = lista.map(e=>`<tr>
+  tbody.innerHTML = lista.map(e=>{
+    const nfHtml = e.nfUrl
+      ? `<a href="${e.nfUrl}" target="_blank" class="nf-badge" title="${esc(e.nfNome)}">&#128196; Ver NF</a>`
+      : `<span class="nf-sem-arquivo">sem anexo</span>`;
+    return `<tr>
     <td>${fmtData(e.data)}</td><td class="cod">${esc(e.cod)}</td>
     <td class="cl">${esc(e.prod)}</td>
     <td style="font-weight:600;color:#2E7D32">+${e.qtd}</td>
     <td class="cl">${esc(e.resp)}</td>
     <td class="cl" style="color:var(--cinza-txt);font-size:12px">${esc(e.obs||'—')}</td>
+    <td>${nfHtml}</td>
     <td><button class="btn btn-del" onclick="removerEntrada('${e.id}')">Remover</button></td>
-  </tr>`).join('');
+  </tr>`;
+  }).join('');
   const cntEnt = document.getElementById('cnt-entradas');
   if (cntEnt) cntEnt.textContent = `${entradas.length} entrada${entradas.length!==1?'s':''} registrada${entradas.length!==1?'s':''}`;
 }
