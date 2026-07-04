@@ -670,6 +670,20 @@ tbody td.cl { text-align: left; }
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 5 5 12"/></svg>
       Entradas
     </button>
+
+    <div class="sidebar-section-label" style="margin-top:18px">Sala Nego</div>
+    <button class="sidebar-btn" data-aba="nego-estoque" onclick="trocarAba('nego-estoque',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+      Estoque Nego
+    </button>
+    <button class="sidebar-btn" data-aba="nego-retiradas" onclick="trocarAba('nego-retiradas',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 19 19 12"/></svg>
+      Retiradas Nego
+    </button>
+    <button class="sidebar-btn" data-aba="nego-entradas" onclick="trocarAba('nego-entradas',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 5 5 12"/></svg>
+      Entradas Nego
+    </button>
   </nav>
 
   <div class="sidebar-footer">
@@ -909,6 +923,118 @@ tbody td.cl { text-align: left; }
   </div>
 
   <div class="tab-rodape"><span id="cnt-entradas">—</span></div>
+</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     SALA NEGO — ABA ESTOQUE
+══════════════════════════════════════════════════════════════════════════ -->
+<div id="pg-nego-estoque" class="pagina">
+<div class="card">
+  <div class="print-topo" style="display:none">
+    <img src="data:image/png;base64,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" alt="Trans Canarinho">
+    <div class="print-topo-info" style="text-align:right">
+      <div class="pt-titulo">Estoque Sala Nego — Trans Canarinho</div>
+      <div class="pt-sub">Controle de saldo de peças reserva</div>
+    </div>
+  </div>
+  <div class="card-topo">
+    <div><h2>Estoque Sala Nego</h2><div class="desc">Saldo atual de peças reserva — Sala Nego</div></div>
+    <button class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.3)" onclick="window.print()">Imprimir</button>
+  </div>
+  <div class="faixa-id">
+    <div class="campo-id"><label>Data da Contagem</label><input type="date" id="nego-data-contagem"></div>
+    <div class="campo-id"><label>Contado por</label><input type="text" id="nego-resp-contagem" placeholder="Nome do responsável"></div>
+  </div>
+  <div id="nego-alerta-zero" class="alerta">Atenção: uma ou mais peças estão com saldo zerado.</div>
+  <div class="barra">
+    <button class="btn btn-primary" onclick="abrirModalCadastroNego()" style="margin-bottom:1px">Cadastrar Peça</button>
+    <button class="btn btn-ghost" onclick="abrirRecontagemNego()" style="margin-bottom:1px">Recontagem</button>
+  </div>
+  <div class="barra-busca">
+    <label>Buscar</label>
+    <input type="text" id="busca-nego-estoque" placeholder="Código, produto, aplicação..." oninput="filtrarEstoqueNego()">
+  </div>
+  <div id="grid-nego-estoque" class="pecas-grid"></div>
+  <div class="tab-rodape">
+    <span id="cnt-nego-estoque">—</span>
+    <span id="cnt-nego-zerados" class="alerta-cnt"></span>
+  </div>
+  <div class="bloco-assin" style="display:none">
+    <div class="assin-item"><div class="assin-linha"></div><div class="assin-lbl">Assinatura do responsável pela contagem</div><div class="assin-val" id="nego-p-resp"></div></div>
+    <div class="assin-item" style="max-width:160px"><div class="assin-linha"></div><div class="assin-lbl">Data da contagem</div><div class="assin-val" id="nego-p-data"></div></div>
+  </div>
+</div>
+</div>
+
+<!-- ══ SALA NEGO — RETIRADAS ═══════════════════════════════════════════════ -->
+<div id="pg-nego-retiradas" class="pagina">
+<div class="card">
+  <div class="card-topo">
+    <div><h2>Retiradas — Sala Nego</h2><div class="desc">Saídas para o estoque principal</div></div>
+    <button class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.3)" onclick="window.print()">Imprimir</button>
+  </div>
+  <div class="barra">
+    <div class="campo"><label>Data</label><input type="date" id="nego-r-data" style="width:148px"></div>
+    <div class="campo"><label>Código</label>
+      <select id="nego-r-cod" style="width:130px" onchange="preencherProdutoNegoRet()"><option value="">Selecione</option></select>
+    </div>
+    <div class="campo"><label>Produto</label><input type="text" id="nego-r-prod" style="width:240px" readonly></div>
+    <div class="campo"><label>Quantidade</label><input type="number" id="nego-r-qtd" placeholder="0" min="1" style="width:88px"></div>
+    <div class="campo"><label>Retirado por</label><input type="text" id="nego-r-resp" placeholder="Nome" style="width:200px"></div>
+    <button class="btn btn-primary" onclick="adicionarRetiradaNego()" style="margin-bottom:1px">Registrar Retirada</button>
+  </div>
+  <div class="barra-busca">
+    <label>Buscar</label>
+    <input type="text" id="busca-nego-retiradas" placeholder="Código, produto ou responsável..." oninput="filtrarRetiradasNego()">
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Data</th><th>Código</th><th class="cl">Produto</th><th>Quantidade</th><th class="cl">Retirado por</th><th></th></tr></thead>
+      <tbody id="tbody-nego-retiradas"></tbody>
+    </table>
+  </div>
+  <div class="tab-rodape"><span id="cnt-nego-retiradas">—</span></div>
+</div>
+</div>
+
+<!-- ══ SALA NEGO — ENTRADAS ════════════════════════════════════════════════ -->
+<div id="pg-nego-entradas" class="pagina">
+<div class="card">
+  <div class="card-topo">
+    <div><h2>Entradas — Sala Nego</h2><div class="desc">Compras e recebimentos de peças</div></div>
+    <button class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.3)" onclick="window.print()">Imprimir</button>
+  </div>
+  <div class="barra">
+    <div class="campo"><label>Data</label><input type="date" id="nego-ent-data" style="width:148px"></div>
+    <div class="campo"><label>Código</label>
+      <select id="nego-ent-cod" style="width:180px" onchange="preencherProdutoNegoEnt()"><option value="">Selecione</option></select>
+    </div>
+    <div class="campo"><label>Produto</label><input type="text" id="nego-ent-prod" style="width:240px" readonly></div>
+    <div class="campo"><label>Quantidade</label><input type="number" id="nego-ent-qtd" placeholder="0" min="1" style="width:88px"></div>
+    <div class="campo"><label>Recebido por</label><input type="text" id="nego-ent-resp" placeholder="Nome" style="width:200px"></div>
+    <div class="campo"><label>Observação</label><input type="text" id="nego-ent-obs" placeholder="Fornecedor, NF..." style="width:200px"></div>
+    <div class="campo">
+      <label>Nota Fiscal (PDF)</label>
+      <div class="nf-upload-mini" onclick="document.getElementById('nego-ent-nf-input').click()">
+        <input type="file" id="nego-ent-nf-input" accept="application/pdf" style="display:none" onchange="selecionarNFNego(this)">
+        <span id="nego-ent-nf-label">Anexar PDF</span>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="adicionarEntradaNego()" style="margin-bottom:1px">Registrar Entrada</button>
+  </div>
+  <div class="barra-busca">
+    <label>Buscar</label>
+    <input type="text" id="busca-nego-entradas" placeholder="Código, produto ou responsável..." oninput="filtrarEntradasNego()">
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Data</th><th>Código</th><th class="cl">Produto</th><th>Quantidade</th><th class="cl">Recebido por</th><th class="cl">Observação</th><th>Nota Fiscal</th><th></th></tr></thead>
+      <tbody id="tbody-nego-entradas"></tbody>
+    </table>
+  </div>
+  <div class="tab-rodape"><span id="cnt-nego-entradas">—</span></div>
 </div>
 </div>
 
@@ -1270,9 +1396,12 @@ function previewFoto(input) {
 
 // ── Abas ─────────────────────────────────────────────────────────────────────
 const TITULOS_ABA = {
-  estoque: 'Módulo de <span class="accent">Estoque</span>',
-  retiradas: 'Módulo de <span class="accent">Retiradas</span>',
-  entradas: 'Módulo de <span class="accent">Entradas</span>'
+  estoque:        'Módulo de <span class="accent">Estoque</span> — Garagem',
+  retiradas:      'Módulo de <span class="accent">Retiradas</span> — Garagem',
+  entradas:       'Módulo de <span class="accent">Entradas</span> — Garagem',
+  'nego-estoque':   'Módulo de <span class="accent">Estoque</span> — Sala Nego',
+  'nego-retiradas': 'Módulo de <span class="accent">Retiradas</span> — Sala Nego',
+  'nego-entradas':  'Módulo de <span class="accent">Entradas</span> — Sala Nego',
 };
 
 function trocarAba(aba, btn) {
@@ -1283,7 +1412,9 @@ function trocarAba(aba, btn) {
   const tt = document.getElementById('topbar-titulo');
   if (tt && TITULOS_ABA[aba]) tt.innerHTML = TITULOS_ABA[aba];
   if (aba==='retiradas' || aba==='entradas') atualizarSelect();
+  if (aba==='nego-retiradas' || aba==='nego-entradas') atualizarSelectNego();
   if (aba==='estoque') filtrarEstoque();
+  if (aba==='nego-estoque') filtrarEstoqueNego();
   fecharSidebar();
 }
 
@@ -1852,6 +1983,346 @@ function atualizarDashboard() {
   setText('dc-valor-total', fmtMoeda(valorTotal));
 }
 
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SALA NEGO — Estado e funções
+// ══════════════════════════════════════════════════════════════════════════════
+let negoEstoque   = [];
+let negoRetiradas = [];
+let negoEntradas  = [];
+let negoContagem  = {};
+let negoFotoFile  = null;
+let negoNFFile    = null;
+
+// ── Carregar dados Nego ───────────────────────────────────────────────────────
+async function carregarNego() {
+  try {
+    const [est, ret, ent, cnt] = await Promise.all([
+      sbGet('nego_estoque', 'order=prod.asc'),
+      sbGet('nego_retiradas', 'order=created_at.desc'),
+      sbGet('nego_entradas', 'order=created_at.desc'),
+      sbGet('nego_contagem', 'id=eq.1')
+    ]);
+    negoEstoque   = est.map(p => ({ cod:p.cod, prod:p.prod, qi:p.qi, valor:p.valor||0,
+      codOrig:p.cod_orig||'', aplic:p.aplic||'', ano:p.ano||'',
+      dim:p.dim||'', obs:p.obs||'', foto:p.foto||'', paralelos:p.paralelos||[] }));
+    negoRetiradas = ret.map(r => ({ id:r.id, data:r.data, cod:r.cod, prod:r.prod, qtd:r.qtd, resp:r.resp }));
+    negoEntradas  = ent.map(e => ({ id:e.id, data:e.data, cod:e.cod, prod:e.prod, qtd:e.qtd, resp:e.resp, obs:e.obs||'', nfUrl:e.nf_url||'', nfNome:e.nf_nome||'' }));
+    negoContagem  = cnt[0] || {};
+    const dc = document.getElementById('nego-data-contagem');
+    const rc = document.getElementById('nego-resp-contagem');
+    if (dc) dc.value = negoContagem.data || '';
+    if (rc) rc.value = negoContagem.resp || '';
+    syncPrintNego();
+    renderEstoqueNego();
+    renderRetiradasNego();
+    renderEntradasNego();
+    atualizarDashboardNego();
+  } catch(e) { showErro('Erro ao carregar Sala Nego: ' + e.message); }
+}
+
+// ── Utilitários Nego ──────────────────────────────────────────────────────────
+function somaRetNego(cod) { return negoRetiradas.filter(r=>r.cod===cod).reduce((s,r)=>s+r.qtd,0); }
+function somaEntNego(cod) { return negoEntradas.filter(e=>e.cod===cod).reduce((s,e)=>s+e.qtd,0); }
+
+function syncPrintNego() {
+  const dc = document.getElementById('nego-data-contagem');
+  const rc = document.getElementById('nego-resp-contagem');
+  const pd = document.getElementById('nego-p-data');
+  const pr = document.getElementById('nego-p-resp');
+  if (pd) pd.textContent = dc?.value ? fmtData(dc.value) : '';
+  if (pr) pr.textContent = rc?.value || '';
+}
+
+// Salvar contagem Nego no Supabase
+document.getElementById('nego-data-contagem')?.addEventListener('change', async function() {
+  negoContagem.data = this.value; syncPrintNego();
+  try { await sbPatch('nego_contagem','id=eq.1',{data:this.value||null,resp:document.getElementById('nego-resp-contagem')?.value||null}); } catch(e){}
+});
+document.getElementById('nego-resp-contagem')?.addEventListener('blur', async function() {
+  negoContagem.resp = this.value; syncPrintNego();
+  try { await sbPatch('nego_contagem','id=eq.1',{data:document.getElementById('nego-data-contagem')?.value||null,resp:this.value||null}); } catch(e){}
+});
+
+// ── Dashboard Nego ────────────────────────────────────────────────────────────
+function atualizarDashboardNego() {
+  // Atualiza os mesmos cards do dashboard mas com dados combinados
+  // (garagem + nego) — ou pode ser separado; aqui mostramos totais combinados
+  atualizarDashboard();
+}
+
+// ── Render Estoque Nego ───────────────────────────────────────────────────────
+function renderEstoqueNego(filtro='') {
+  const grid = document.getElementById('grid-nego-estoque');
+  if (!grid) return;
+  const f = filtro.toLowerCase();
+  const lista = negoEstoque.filter(p =>
+    !f || p.cod.toLowerCase().includes(f) || p.prod.toLowerCase().includes(f) ||
+          (p.aplic||'').toLowerCase().includes(f) || (p.codOrig||'').toLowerCase().includes(f)
+  );
+  grid.innerHTML = lista.map(p => {
+    const ret = somaRetNego(p.cod), ent = somaEntNego(p.cod), saldo = p.qi + ent - ret;
+    const saldoClass = saldo<=0?'saldo-num-zero':saldo<=3?'saldo-num-bx':'saldo-num-ok';
+    const badgeZero  = saldo<=0?`<div class="peca-card-badge-zero">ZERADO</div>`:'';
+    const fotoHtml   = p.foto
+      ? `<img src="${p.foto}" class="peca-card-foto" alt="${esc(p.prod)}">`
+      : `<div class="peca-card-sem-foto"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg><span>sem foto</span></div>`;
+    const valorHtml  = p.valor>0 ? `<div class="peca-card-valor">Valor: <b>${fmtMoeda(p.valor)}</b></div>` : '';
+    return `<div class="peca-card" onclick="verDetalheNego('${esc(p.cod)}')">
+      ${badgeZero}
+      <button class="peca-card-remover" onclick="event.stopPropagation();removerPecaNego('${esc(p.cod)}')">Remover</button>
+      ${fotoHtml}
+      <div class="peca-card-body">
+        <div class="peca-card-cod">${esc(p.cod)}</div>
+        <div class="peca-card-nome" title="${esc(p.prod)}">${esc(p.prod)}</div>
+        ${valorHtml}
+        <div class="peca-card-saldo">
+          <div class="peca-card-saldo-label">Saldo atual</div>
+          <div class="peca-card-saldo-num ${saldoClass}">${saldo}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  const zerados = negoEstoque.filter(p=>(p.qi+somaEntNego(p.cod)-somaRetNego(p.cod))<=0).length;
+  const cntEl = document.getElementById('cnt-nego-estoque');
+  const zeroEl = document.getElementById('cnt-nego-zerados');
+  const alertEl = document.getElementById('nego-alerta-zero');
+  if (cntEl) cntEl.textContent = `${negoEstoque.length} item${negoEstoque.length!==1?'ns':''} cadastrado${negoEstoque.length!==1?'s':''}`;
+  if (zeroEl) zeroEl.textContent = zerados>0?`${zerados} peça${zerados>1?'s':''} com saldo zero`:'';
+  if (alertEl) alertEl.style.display = zerados>0?'block':'none';
+}
+function filtrarEstoqueNego() { renderEstoqueNego(document.getElementById('busca-nego-estoque').value); }
+
+// ── Modal Cadastro Nego ───────────────────────────────────────────────────────
+function abrirModalCadastroNego(cod=null) {
+  document.getElementById('modal-titulo').textContent = cod ? 'Editar Peça — Sala Nego' : 'Cadastrar Peça — Sala Nego';
+  document.getElementById('m-edit-cod').value = (cod ? '__nego__' : '') + (cod||'');
+  document.getElementById('paralelos-list').innerHTML = '';
+  negoFotoFile = null;
+  if (cod) {
+    const p = negoEstoque.find(x=>x.cod===cod);
+    document.getElementById('m-cod').value      = p.cod;
+    document.getElementById('m-qi').value       = p.qi;
+    document.getElementById('m-valor').value    = p.valor||'';
+    document.getElementById('m-prod').value     = p.prod;
+    document.getElementById('m-cod-orig').value = p.codOrig||'';
+    document.getElementById('m-aplic').value    = p.aplic||'';
+    document.getElementById('m-ano').value      = p.ano||'';
+    document.getElementById('m-dim').value      = p.dim||'';
+    document.getElementById('m-obs').value      = p.obs||'';
+    document.getElementById('m-foto-b64').value = p.foto||'';
+    const prev = document.getElementById('m-foto-preview');
+    if (p.foto) { prev.src=p.foto; prev.style.display='block'; document.getElementById('foto-icon-placeholder').style.display='none'; document.getElementById('foto-drag-txt').style.display='none'; document.getElementById('foto-sub-txt').style.display='none'; document.getElementById('foto-trocar').style.display='block'; }
+    else { prev.style.display='none'; document.getElementById('foto-icon-placeholder').style.display=''; document.getElementById('foto-drag-txt').style.display=''; document.getElementById('foto-sub-txt').style.display=''; document.getElementById('foto-trocar').style.display='none'; }
+    (p.paralelos||[]).forEach(v=>adicionarParalelo(v));
+  } else {
+    ['m-cod','m-qi','m-valor','m-prod','m-cod-orig','m-aplic','m-ano','m-dim','m-obs'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('m-foto-b64').value='';
+    document.getElementById('m-foto-preview').style.display='none';
+    document.getElementById('foto-icon-placeholder').style.display='';
+    document.getElementById('foto-drag-txt').style.display='';
+    document.getElementById('foto-sub-txt').style.display='';
+    document.getElementById('foto-trocar').style.display='none';
+  }
+  // Override save button to use Nego table
+  document.querySelector('#modal-cadastro .modal-footer .btn-primary').onclick = salvarPecaNego;
+  abrirModal('modal-cadastro');
+}
+
+async function salvarPecaNego() {
+  const codNovo = document.getElementById('m-cod').value.trim().toUpperCase();
+  const prod    = document.getElementById('m-prod').value.trim();
+  const qi      = parseInt(document.getElementById('m-qi').value);
+  const codEditRaw = document.getElementById('m-edit-cod').value;
+  const isNego = codEditRaw.startsWith('__nego__');
+  const codEdit = isNego ? codEditRaw.replace('__nego__','') : '';
+  if (!codNovo||!prod||isNaN(qi)||qi<0) { alert('Preencha Código, Produto e Qtd. Inicial.'); return; }
+  if (!codEdit && negoEstoque.find(p=>p.cod===codNovo)) { alert('Código já cadastrado na Sala Nego.'); return; }
+  showLoading('Salvando...');
+  try {
+    let fotoUrl = '';
+    const fotoField = document.getElementById('m-foto-b64').value;
+    if (negoFotoFile && fotoField.startsWith('__pending__:')) {
+      showLoading('Enviando foto...');
+      fotoUrl = await uploadFoto(negoFotoFile, codNovo);
+      negoFotoFile = null;
+    } else if (fotoField && !fotoField.startsWith('__pending__:')) {
+      fotoUrl = fotoField;
+    }
+    const valorRaw = parseFloat(document.getElementById('m-valor').value);
+    const peca = { cod:codNovo, prod, qi, valor:isNaN(valorRaw)?0:valorRaw,
+      cod_orig:document.getElementById('m-cod-orig').value.trim(),
+      aplic:document.getElementById('m-aplic').value.trim(),
+      ano:document.getElementById('m-ano').value.trim(),
+      dim:document.getElementById('m-dim').value.trim(),
+      obs:document.getElementById('m-obs').value.trim(),
+      foto:fotoUrl, paralelos:getParalelos() };
+    showLoading('Salvando peça...');
+    await sbUpsert('nego_estoque', peca);
+    // Restore garagem save button
+    document.querySelector('#modal-cadastro .modal-footer .btn-primary').onclick = salvarPeca;
+    await carregarNego();
+    fecharModal('modal-cadastro');
+  } catch(e) { showErro(e.message); hideLoading(); }
+}
+
+async function removerPecaNego(cod) {
+  if (!confirm(`Remover "${cod}" da Sala Nego?`)) return;
+  showLoading('Removendo...');
+  try { await sbDelete('nego_estoque', `cod=eq.${encodeURIComponent(cod)}`); await carregarNego(); }
+  catch(e) { showErro(e.message); hideLoading(); }
+}
+
+// ── Detalhe Nego ─────────────────────────────────────────────────────────────
+function verDetalheNego(cod) {
+  const p = negoEstoque.find(x=>x.cod===cod); if (!p) return;
+  const ret=somaRetNego(cod), ent=somaEntNego(cod), saldo=p.qi+ent-ret;
+  const saldoCor = saldo<=0?'#C62828':saldo<=3?'#E65100':'#2E7D32';
+  const valorTotal = (p.valor||0)*saldo;
+  let h = '';
+  if (p.foto) h += `<img src="${p.foto}" class="detalhe-foto" alt="${esc(p.prod)}" onclick="abrirLightbox('${p.foto}')" title="Clique para ampliar">`;
+  h += `<div style="background:${saldo<=0?'#FFF3F3':saldo<=3?'#FFF8F0':'#F0F9F1'};border:1px solid ${saldo<=0?'#FFCDD2':saldo<=3?'#FFE0B2':'#C8E6C9'};border-radius:6px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between">
+    <div>
+      <div style="font-size:10px;font-weight:700;color:var(--cinza-txt);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Saldo Atual — Sala Nego</div>
+      <div style="font-size:32px;font-weight:700;color:${saldoCor};line-height:1">${saldo}</div>
+      ${p.valor>0?`<div style="font-size:11px;color:var(--cinza-txt);margin-top:4px">Valor unit.: <b style="color:var(--azul)">${fmtMoeda(p.valor)}</b> · Total: <b style="color:var(--azul)">${fmtMoeda(valorTotal)}</b></div>`:''}
+    </div>
+    <div style="text-align:right;font-size:11px;color:var(--cinza-txt);line-height:1.8">
+      <div>Inicial: <b style="color:var(--azul)">${p.qi}</b></div>
+      <div>Entradas: <b style="color:#2E7D32">+${ent}</b></div>
+      <div>Retiradas: <b style="color:#C62828">-${ret}</b></div>
+    </div>
+  </div>`;
+  h += `<div class="detalhe-grid">
+    <div class="det-campo"><div class="det-label">Código</div><div class="det-valor cod">${esc(p.cod)}</div></div>
+    <div class="det-campo" style="grid-column:2/-1"><div class="det-label">Produto</div><div class="det-valor" style="font-size:14px;font-weight:600">${esc(p.prod)}</div></div>`;
+  if (p.codOrig) h+=`<div class="det-campo"><div class="det-label">Código Original</div><div class="det-valor cod">${esc(p.codOrig)}</div></div>`;
+  if (p.aplic)   h+=`<div class="det-campo"><div class="det-label">Aplicação</div><div class="det-valor">${esc(p.aplic)}</div></div>`;
+  if (p.ano)     h+=`<div class="det-campo"><div class="det-label">Ano</div><div class="det-valor">${esc(p.ano)}</div></div>`;
+  if (p.dim)     h+=`<div class="det-campo"><div class="det-label">Dimensões</div><div class="det-valor">${esc(p.dim)}</div></div>`;
+  if (p.obs)     h+=`<div class="det-campo" style="grid-column:1/-1"><div class="det-label">Observações</div><div class="det-valor">${esc(p.obs)}</div></div>`;
+  if (p.paralelos?.length) h+=`<div class="det-campo" style="grid-column:1/-1"><div class="det-label">Códigos Paralelos</div><div class="paralelos-tags">${p.paralelos.map(c=>`<span class="par-tag">${esc(c)}</span>`).join('')}</div></div>`;
+  h+='</div>';
+  document.getElementById('modal-detalhe-corpo').innerHTML = h;
+  document.getElementById('btn-editar-detalhe').onclick = ()=>{ fecharModal('modal-detalhe'); abrirModalCadastroNego(cod); };
+  abrirModal('modal-detalhe');
+}
+
+// ── Retiradas Nego ────────────────────────────────────────────────────────────
+function atualizarSelectNego() {
+  const selR = document.getElementById('nego-r-cod');
+  const selE = document.getElementById('nego-ent-cod');
+  const opts = '<option value="">Selecione</option>' + negoEstoque.map(p=>`<option value="${esc(p.cod)}">${esc(p.cod)} — ${esc(p.prod)}</option>`).join('');
+  if (selR) { selR.innerHTML=opts; preencherProdutoNegoRet(); }
+  if (selE) { selE.innerHTML=opts; preencherProdutoNegoEnt(); }
+}
+function preencherProdutoNegoRet() { const p=negoEstoque.find(x=>x.cod===document.getElementById('nego-r-cod').value); document.getElementById('nego-r-prod').value=p?p.prod:''; }
+function preencherProdutoNegoEnt() { const p=negoEstoque.find(x=>x.cod===document.getElementById('nego-ent-cod').value); document.getElementById('nego-ent-prod').value=p?p.prod:''; }
+
+async function adicionarRetiradaNego() {
+  const data=document.getElementById('nego-r-data').value, cod=document.getElementById('nego-r-cod').value;
+  const qtd=parseInt(document.getElementById('nego-r-qtd').value), resp=document.getElementById('nego-r-resp').value.trim();
+  if (!data||!cod||isNaN(qtd)||qtd<=0||!resp) { alert('Preencha todos os campos.'); return; }
+  const peca=negoEstoque.find(p=>p.cod===cod);
+  const saldo=peca.qi+somaEntNego(cod)-somaRetNego(cod);
+  if (qtd>saldo) { alert(`Saldo disponível: ${saldo}`); return; }
+  showLoading('Registrando...');
+  try { await sbPost('nego_retiradas',{data,cod,prod:peca.prod,qtd,resp}); document.getElementById('nego-r-qtd').value=''; document.getElementById('nego-r-resp').value=''; await carregarNego(); }
+  catch(e) { showErro(e.message); hideLoading(); }
+}
+
+async function removerRetiradaNego(id) {
+  if (!confirm('Remover este registro?')) return;
+  showLoading('Removendo...');
+  try { await sbDelete('nego_retiradas',`id=eq.${id}`); await carregarNego(); }
+  catch(e) { showErro(e.message); hideLoading(); }
+}
+
+function renderRetiradasNego(filtro='') {
+  const tbody=document.getElementById('tbody-nego-retiradas'); if (!tbody) return;
+  const f=filtro.toLowerCase();
+  const lista=negoRetiradas.filter(r=>!f||r.cod.toLowerCase().includes(f)||r.prod.toLowerCase().includes(f)||r.resp.toLowerCase().includes(f));
+  tbody.innerHTML=lista.map(r=>`<tr><td>${fmtData(r.data)}</td><td class="cod">${esc(r.cod)}</td><td class="cl">${esc(r.prod)}</td><td style="font-weight:600">${r.qtd}</td><td class="cl">${esc(r.resp)}</td><td><button class="btn btn-del" onclick="removerRetiradaNego('${r.id}')">Remover</button></td></tr>`).join('');
+  const cnt=document.getElementById('cnt-nego-retiradas'); if (cnt) cnt.textContent=`${negoRetiradas.length} retirada${negoRetiradas.length!==1?'s':''} registrada${negoRetiradas.length!==1?'s':''}`;
+}
+function filtrarRetiradasNego() { renderRetiradasNego(document.getElementById('busca-nego-retiradas').value); }
+
+// ── Entradas Nego ─────────────────────────────────────────────────────────────
+let negoNFFileAtual = null;
+function selecionarNFNego(input) {
+  const file=input.files[0]; if (!file) return;
+  if (file.type!=='application/pdf') { alert('Selecione um PDF.'); input.value=''; return; }
+  negoNFFileAtual=file;
+  const lbl=document.getElementById('nego-ent-nf-label'); lbl.textContent=file.name.length>18?file.name.slice(0,15)+'...':file.name;
+  input.closest('.nf-upload-mini').classList.add('tem-arquivo');
+}
+
+async function adicionarEntradaNego() {
+  const data=document.getElementById('nego-ent-data').value, cod=document.getElementById('nego-ent-cod').value;
+  const qtd=parseInt(document.getElementById('nego-ent-qtd').value), resp=document.getElementById('nego-ent-resp').value.trim();
+  const obs=document.getElementById('nego-ent-obs').value.trim();
+  if (!data||!cod||isNaN(qtd)||qtd<=0||!resp) { alert('Preencha todos os campos.'); return; }
+  const peca=negoEstoque.find(p=>p.cod===cod);
+  showLoading('Registrando entrada...');
+  try {
+    let nfUrl='', nfNome='';
+    if (negoNFFileAtual) { showLoading('Enviando NF...'); nfUrl=await uploadNF(negoNFFileAtual,cod,data); nfNome=negoNFFileAtual.name; negoNFFileAtual=null; }
+    showLoading('Salvando...');
+    await sbPost('nego_entradas',{data,cod,prod:peca.prod,qtd,resp,obs,nf_url:nfUrl,nf_nome:nfNome});
+    document.getElementById('nego-ent-qtd').value=''; document.getElementById('nego-ent-resp').value=''; document.getElementById('nego-ent-obs').value='';
+    document.getElementById('nego-ent-nf-input').value='';
+    const lbl=document.getElementById('nego-ent-nf-label'); lbl.textContent='Anexar PDF'; lbl.closest('.nf-upload-mini').classList.remove('tem-arquivo');
+    await carregarNego();
+  } catch(e) { showErro(e.message); hideLoading(); }
+}
+
+async function removerEntradaNego(id) {
+  if (!confirm('Remover este registro?')) return;
+  showLoading('Removendo...');
+  try { await sbDelete('nego_entradas',`id=eq.${id}`); await carregarNego(); }
+  catch(e) { showErro(e.message); hideLoading(); }
+}
+
+function renderEntradasNego(filtro='') {
+  const tbody=document.getElementById('tbody-nego-entradas'); if (!tbody) return;
+  const f=filtro.toLowerCase();
+  const lista=negoEntradas.filter(e=>!f||e.cod.toLowerCase().includes(f)||e.prod.toLowerCase().includes(f)||e.resp.toLowerCase().includes(f));
+  tbody.innerHTML=lista.map(e=>{
+    const nfHtml=e.nfUrl?`<a href="${e.nfUrl}" target="_blank" class="nf-badge" title="${esc(e.nfNome)}">&#128196; Ver NF</a>`:`<span class="nf-sem-arquivo">sem anexo</span>`;
+    return `<tr><td>${fmtData(e.data)}</td><td class="cod">${esc(e.cod)}</td><td class="cl">${esc(e.prod)}</td><td style="font-weight:600;color:#2E7D32">+${e.qtd}</td><td class="cl">${esc(e.resp)}</td><td class="cl" style="color:var(--cinza-txt);font-size:12px">${esc(e.obs||'—')}</td><td>${nfHtml}</td><td><button class="btn btn-del" onclick="removerEntradaNego('${e.id}')">Remover</button></td></tr>`;
+  }).join('');
+  const cnt=document.getElementById('cnt-nego-entradas'); if (cnt) cnt.textContent=`${negoEntradas.length} entrada${negoEntradas.length!==1?'s':''} registrada${negoEntradas.length!==1?'s':''}`;
+}
+function filtrarEntradasNego() { renderEntradasNego(document.getElementById('busca-nego-entradas').value); }
+
+// ── Recontagem Nego ───────────────────────────────────────────────────────────
+function abrirRecontagemNego() {
+  const lista=document.getElementById('recontagem-lista');
+  lista.innerHTML=negoEstoque.map(p=>{
+    const saldo=p.qi+somaEntNego(p.cod)-somaRetNego(p.cod);
+    const fotoHtml=p.foto?`<img src="${p.foto}" class="rec-foto" alt="${esc(p.prod)}">`:`<div class="rec-sem-foto">&#x25A1;</div>`;
+    return `<div class="rec-item">${fotoHtml}<div class="rec-info"><div class="rec-cod">${esc(p.cod)}</div><div class="rec-nome" title="${esc(p.prod)}">${esc(p.prod)}</div><div class="rec-linha"><span class="rec-label">Qtd. Inicial</span><input class="rec-input" type="number" min="0" id="nego-rec-${esc(p.cod)}" value="${p.qi}" data-original="${p.qi}" oninput="marcarAlterado(this)"><span class="rec-saldo-atual">saldo: <b>${saldo}</b></span></div></div></div>`;
+  }).join('');
+  // Override confirm button
+  document.querySelector('#modal-recontagem .modal-footer .btn-primary').onclick = confirmarRecontagemNego;
+  document.querySelector('#modal-recontagem h3').textContent = 'Recontagem — Sala Nego';
+  abrirModal('modal-recontagem');
+}
+
+async function confirmarRecontagemNego() {
+  const alterados=negoEstoque.filter(p=>{ const input=document.getElementById('nego-rec-'+p.cod); return input&&parseInt(input.value)!==p.qi; });
+  if (alterados.length===0) { fecharModal('modal-recontagem'); return; }
+  if (!confirm(`Confirmar recontagem? ${alterados.length} peça${alterados.length>1?'s':''} serão atualizadas.`)) return;
+  showLoading('Salvando recontagem...');
+  try {
+    for (const p of alterados) { const input=document.getElementById('nego-rec-'+p.cod); await sbPatch('nego_estoque',`cod=eq.${encodeURIComponent(p.cod)}`,{qi:parseInt(input.value)}); }
+    // Restore garagem recontagem button
+    document.querySelector('#modal-recontagem .modal-footer .btn-primary').onclick = confirmarRecontagem;
+    document.querySelector('#modal-recontagem h3').textContent = 'Recontagem de Estoque';
+    fecharModal('modal-recontagem'); await carregarNego();
+  } catch(e) { showErro(e.message); hideLoading(); }
+}
+
 // ── Busca global (topbar) ──────────────────────────────────────────────────────
 function abaAtiva() {
   const ativa = document.querySelector('.pagina.ativa');
@@ -1874,7 +2345,11 @@ document.getElementById('ent-data').value = hoje();
 initDragDrop();
 const pdr = document.getElementById('print-data-rodape');
 if (pdr) pdr.textContent = 'Emitido em ' + new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'});
+// Set date defaults for Nego forms
+const negoRData = document.getElementById('nego-r-data'); if (negoRData) negoRData.value = hoje();
+const negoEntData = document.getElementById('nego-ent-data'); if (negoEntData) negoEntData.value = hoje();
 carregarTudo();
+carregarNego();
 </script>
 
 <!-- LIGHTBOX -->
