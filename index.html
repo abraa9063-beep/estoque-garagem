@@ -1828,8 +1828,18 @@ async function salvarPeca() {
 
     showLoading('Salvando peça...');
     await sbUpsert('estoque', peca);
-    if (codEdit && codEdit !== codNovo) {
-      await sbPatch('retiradas', `cod=eq.${encodeURIComponent(codEdit)}`, {cod: codNovo});
+    if (codEdit) {
+      // Se mudou a quantidade total, zera entradas e retiradas para o saldo partir do novo valor
+      const pecaAntiga = estoque.find(p=>p.cod===codEdit);
+      if (pecaAntiga && pecaAntiga.qi !== qi) {
+        showLoading('Ajustando movimentações...');
+        await sbDelete('entradas',  `cod=eq.${encodeURIComponent(codNovo)}`);
+        await sbDelete('retiradas', `cod=eq.${encodeURIComponent(codNovo)}`);
+      }
+      if (codEdit !== codNovo) {
+        await sbPatch('retiradas', `cod=eq.${encodeURIComponent(codEdit)}`, {cod: codNovo});
+        await sbPatch('entradas',  `cod=eq.${encodeURIComponent(codEdit)}`, {cod: codNovo});
+      }
     }
     await carregarTudo();
     fecharModal('modal-cadastro');
@@ -2274,7 +2284,7 @@ function atualizarDashboard() {
   estoque.forEach(p => {
     const saldo = p.qi + somaEnt(p.cod) - somaRet(p.cod);
     totalUnidades += Math.max(saldo, 0);
-    valorTotal += Math.max(saldo, 0) * (p.valor || 0);
+    valorTotal += (p.valor || 0);
     if (saldo <= 3) baixoEstoque++;
   });
 
