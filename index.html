@@ -2374,14 +2374,20 @@ function atualizarDashboardNego() {
   });
   const movimentos = negoRetiradas.length + negoEntradas.length;
   const setText = (id, val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
-  setText('dm-total', totalUnidades);
-  setText('dm-valor', fmtMoeda(valorTotal));
-  setText('dm-tipos', tipos);
-  setText('dm-mov', movimentos);
-  setText('sc-tipos', tipos);
+  setText('dm-total',    totalUnidades);
+  setText('dm-valor',    fmtMoeda(valorTotal));
+  setText('dm-tipos',    tipos);
+  setText('dm-mov',      movimentos);
+  setText('sc-tipos',    tipos);
   setText('sc-unidades', totalUnidades);
-  setText('sc-baixo', baixoEstoque);
-  setText('sc-valor', fmtMoeda(valorTotal));
+  setText('sc-baixo',    baixoEstoque);
+  setText('sc-valor',    fmtMoeda(valorTotal));
+  // Sync dashboard card too
+  setText('d-neg-tipos',    tipos);
+  setText('d-neg-unidades', totalUnidades);
+  setText('d-neg-valor',    fmtMoeda(valorTotal));
+  setText('d-neg-baixo',    baixoEstoque);
+  setText('d-neg-zerados',  negoEstoque.filter(p=>(p.qi+somaEntNego(p.cod)-somaRetNego(p.cod))<=0).length);
 }
 
 // ── Render Estoque Nego ───────────────────────────────────────────────────────
