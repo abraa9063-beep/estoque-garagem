@@ -2328,6 +2328,7 @@ async function carregarNego() {
     renderRetiradasNego();
     renderEntradasNego();
     atualizarDashboardNego();
+    if(document.getElementById('pg-dashboard')?.classList.contains('active')) renderDashboard();
   } catch(e) { showErro('Erro ao carregar Sala Nego: ' + e.message); }
 }
 
@@ -2361,7 +2362,7 @@ function atualizarDashboardNego() {
   negoEstoque.forEach(p => {
     const saldo = p.qi + somaEntNego(p.cod) - somaRetNego(p.cod);
     totalUnidades += Math.max(saldo, 0);
-    valorTotal    += Math.max(saldo, 0) * (p.valor || 0);
+    valorTotal    += p.valor || 0;
     if (saldo <= 3) baixoEstoque++;
   });
   const movimentos = negoRetiradas.length + negoEntradas.length;
@@ -2808,8 +2809,9 @@ if (pdr) pdr.textContent = 'Emitido em ' + new Date().toLocaleDateString('pt-BR'
 // Set date defaults for Nego forms
 const negoRData = document.getElementById('nego-r-data'); if (negoRData) negoRData.value = hoje();
 const negoEntData = document.getElementById('nego-ent-data'); if (negoEntData) negoEntData.value = hoje();
-carregarTudo();
-carregarNego();
+Promise.all([carregarTudo(), carregarNego()]).then(() => {
+  renderDashboard();
+});
 </script>
 </body>
 </html>
