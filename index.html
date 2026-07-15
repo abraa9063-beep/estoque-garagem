@@ -747,6 +747,12 @@ tbody td.tl { text-align: left; }
   </div>
 
   <nav class="sidebar-nav">
+    <div class="nav-label">Principal</div>
+    <button class="nav-item" data-tab="dashboard" onclick="switchTab('dashboard',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Dashboard
+    </button>
+
     <div class="nav-label">Garagem</div>
     <button class="nav-item active" data-tab="estoque" onclick="switchTab('estoque',this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
@@ -1142,6 +1148,111 @@ tbody td.tl { text-align: left; }
   </div>
 </div>
 
+<!-- ═══════════════ ABA: DASHBOARD ════════════════════════════════════════ -->
+<div id="pg-dashboard" class="pagina">
+  <div class="pg-title">
+    <h2>Dashboard <span>Geral</span></h2>
+    <p>Visão consolidada do estoque — Garagem + Sala Nego</p>
+  </div>
+
+  <!-- Alertas críticos -->
+  <div id="dash-alertas" style="margin-bottom:16px"></div>
+
+  <!-- Cards de resumo por local -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+
+    <!-- Garagem -->
+    <div class="panel">
+      <div style="background:linear-gradient(120deg,var(--navy) 0%,var(--navy-2) 100%);padding:14px 20px;display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="color:#fff;font-size:13px;font-weight:700">Garagem</div>
+          <div style="color:#6A82BB;font-size:11px;margin-top:2px">Estoque principal</div>
+        </div>
+        <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.5" style="width:32px;height:32px"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border-bottom:1px solid var(--border)">
+        <div style="padding:14px 16px;border-right:1px solid var(--border);text-align:center">
+          <div style="font-size:9.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Tipos</div>
+          <div style="font-size:22px;font-weight:800;color:var(--navy)" id="d-gar-tipos">—</div>
+        </div>
+        <div style="padding:14px 16px;border-right:1px solid var(--border);text-align:center">
+          <div style="font-size:9.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Unidades</div>
+          <div style="font-size:22px;font-weight:800;color:var(--navy)" id="d-gar-unidades">—</div>
+        </div>
+        <div style="padding:14px 16px;text-align:center">
+          <div style="font-size:9.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Valor Total</div>
+          <div style="font-size:14px;font-weight:800;color:var(--red)" id="d-gar-valor">—</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0">
+        <div style="padding:12px 16px;border-right:1px solid var(--border);text-align:center">
+          <div style="font-size:9.5px;font-weight:800;color:var(--orange);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Estoque Baixo</div>
+          <div style="font-size:20px;font-weight:800;color:var(--orange)" id="d-gar-baixo">—</div>
+        </div>
+        <div style="padding:12px 16px;text-align:center">
+          <div style="font-size:9.5px;font-weight:800;color:var(--red);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Zerados</div>
+          <div style="font-size:20px;font-weight:800;color:var(--red)" id="d-gar-zerados">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sala Nego -->
+    <div class="panel">
+      <div style="background:linear-gradient(120deg,#1A3A6B 0%,#1A2E6B 100%);padding:14px 20px;display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="color:#fff;font-size:13px;font-weight:700">Sala Nego</div>
+          <div style="color:#6A82BB;font-size:11px;margin-top:2px">Estoque secundário</div>
+        </div>
+        <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.5" style="width:32px;height:32px"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border-bottom:1px solid var(--border)">
+        <div style="padding:14px 16px;border-right:1px solid var(--border);text-align:center">
+          <div style="font-size:9.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Tipos</div>
+          <div style="font-size:22px;font-weight:800;color:var(--navy)" id="d-neg-tipos">—</div>
+        </div>
+        <div style="padding:14px 16px;border-right:1px solid var(--border);text-align:center">
+          <div style="font-size:9.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Unidades</div>
+          <div style="font-size:22px;font-weight:800;color:var(--navy)" id="d-neg-unidades">—</div>
+        </div>
+        <div style="padding:14px 16px;text-align:center">
+          <div style="font-size:9.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Valor Total</div>
+          <div style="font-size:14px;font-weight:800;color:var(--red)" id="d-neg-valor">—</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0">
+        <div style="padding:12px 16px;border-right:1px solid var(--border);text-align:center">
+          <div style="font-size:9.5px;font-weight:800;color:var(--orange);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Estoque Baixo</div>
+          <div style="font-size:20px;font-weight:800;color:var(--orange)" id="d-neg-baixo">—</div>
+        </div>
+        <div style="padding:12px 16px;text-align:center">
+          <div style="font-size:9.5px;font-weight:800;color:var(--red);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Zerados</div>
+          <div style="font-size:20px;font-weight:800;color:var(--red)" id="d-neg-zerados">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Linha: Peças críticas + Movimentações recentes -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+
+    <!-- Peças zeradas/baixas -->
+    <div class="panel">
+      <div style="padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+        <div style="font-size:13px;font-weight:700;color:var(--navy)">Peças Críticas</div>
+        <span style="background:var(--red);color:#fff;font-size:10px;font-weight:800;padding:2px 8px;border-radius:20px" id="d-criticas-cnt">0</span>
+      </div>
+      <div id="d-criticas-lista" style="max-height:340px;overflow-y:auto"></div>
+    </div>
+
+    <!-- Movimentações recentes -->
+    <div class="panel">
+      <div style="padding:14px 20px;border-bottom:1px solid var(--border);font-size:13px;font-weight:700;color:var(--navy)">Movimentações Recentes</div>
+      <div id="d-mov-lista" style="max-height:340px;overflow-y:auto"></div>
+    </div>
+
+  </div>
+</div>
+
   </div><!-- /content -->
 </div><!-- /main -->
 
@@ -1431,6 +1542,7 @@ async function carregarTudo() {
     renderRetiradas();
     renderEntradas();
     atualizarDashboard();
+    if(document.getElementById('pg-dashboard')?.classList.contains('active')) renderDashboard();
   } catch(e) {
     showErro('Falha ao carregar dados: ' + e.message);
   } finally {
@@ -1574,6 +1686,7 @@ function previewFoto(input) {
 
 // ── Abas ─────────────────────────────────────────────────────────────────────
 const TITULOS_ABA = {
+  'dashboard':      'Dashboard <span class="accent">Geral</span>',
   'estoque':        'Estoque <span class="accent">Garagem</span>',
   'retiradas':      '<span class="accent">Retiradas</span> — Garagem',
   'entradas':       '<span class="accent">Entradas</span> — Garagem',
@@ -1750,20 +1863,10 @@ function verDetalhe(cod) {
       <div style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Saldo Atual</div>
       <div style="font-size:36px;font-weight:900;color:${saldoCor};line-height:1;letter-spacing:-.03em">${saldo}</div>
     </div>
-    <div style="display:flex;gap:12px;text-align:center">
-      <div style="background:rgba(255,255,255,.7);border-radius:6px;padding:10px 16px;min-width:90px">
-        <div style="font-size:9px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Valor Total</div>
-        <div style="font-size:15px;font-weight:800;color:var(--navy)">${p.valor>0?fmtMoeda(p.valor):'—'}</div>
-        <button onclick="editarValorDetalhe('${esc(cod)}')" style="background:none;border:none;font-size:10px;color:var(--blue);cursor:pointer;font-family:inherit;font-weight:700;margin-top:3px;text-decoration:underline">editar</button>
-      </div>
-      <div style="background:rgba(255,255,255,.7);border-radius:6px;padding:10px 16px;min-width:80px">
-        <div style="font-size:9px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Entradas</div>
-        <div style="font-size:18px;font-weight:800;color:#1A7A3A">+${ent}</div>
-      </div>
-      <div style="background:rgba(255,255,255,.7);border-radius:6px;padding:10px 16px;min-width:80px">
-        <div style="font-size:9px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Retiradas</div>
-        <div style="font-size:18px;font-weight:800;color:#C62828">-${ret}</div>
-      </div>
+    <div style="background:rgba(255,255,255,.7);border-radius:6px;padding:10px 16px;min-width:100px;text-align:center">
+      <div style="font-size:9px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Valor Total</div>
+      <div style="font-size:15px;font-weight:800;color:var(--navy)">${p.valor>0?fmtMoeda(p.valor):'—'}</div>
+      <button onclick="editarValorDetalhe('${esc(cod)}')" style="background:none;border:none;font-size:10px;color:var(--blue);cursor:pointer;font-family:inherit;font-weight:700;margin-top:3px;text-decoration:underline">editar</button>
     </div>
   </div>`;
 
@@ -2407,20 +2510,10 @@ function verDetalheNego(cod) {
       <div style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Saldo Atual — Sala Nego</div>
       <div style="font-size:36px;font-weight:900;color:${saldoCor};line-height:1;letter-spacing:-.03em">${saldo}</div>
     </div>
-    <div style="display:flex;gap:12px;text-align:center">
-      <div style="background:rgba(255,255,255,.7);border-radius:6px;padding:10px 16px;min-width:90px">
-        <div style="font-size:9px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Valor Total</div>
-        <div style="font-size:15px;font-weight:800;color:var(--navy)">${p.valor>0?fmtMoeda(p.valor):'—'}</div>
-        <button onclick="editarValorDetalheNego('${esc(cod)}')" style="background:none;border:none;font-size:10px;color:var(--blue);cursor:pointer;font-family:inherit;font-weight:700;margin-top:3px;text-decoration:underline">editar</button>
-      </div>
-      <div style="background:rgba(255,255,255,.7);border-radius:6px;padding:10px 16px;min-width:80px">
-        <div style="font-size:9px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Entradas</div>
-        <div style="font-size:18px;font-weight:800;color:#1A7A3A">+${ent}</div>
-      </div>
-      <div style="background:rgba(255,255,255,.7);border-radius:6px;padding:10px 16px;min-width:80px">
-        <div style="font-size:9px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Retiradas</div>
-        <div style="font-size:18px;font-weight:800;color:#C62828">-${ret}</div>
-      </div>
+    <div style="background:rgba(255,255,255,.7);border-radius:6px;padding:10px 16px;min-width:100px;text-align:center">
+      <div style="font-size:9px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Valor Total</div>
+      <div style="font-size:15px;font-weight:800;color:var(--navy)">${p.valor>0?fmtMoeda(p.valor):'—'}</div>
+      <button onclick="editarValorDetalheNego('${esc(cod)}')" style="background:none;border:none;font-size:10px;color:var(--blue);cursor:pointer;font-family:inherit;font-weight:700;margin-top:3px;text-decoration:underline">editar</button>
     </div>
   </div>`;
   h += `<div class="detail-grid">
@@ -2568,6 +2661,126 @@ async function confirmarRecontagemNego() {
     const rmt = document.getElementById('rec-modal-titulo'); if(rmt) rmt.textContent = 'Recontagem de Estoque';
     fecharModal('modal-recontagem'); await carregarNego();
   } catch(e) { showErro(e.message); hideLoading(); }
+}
+
+
+// ══════════════════════════════════════════════════════════════════════════════
+// DASHBOARD
+// ══════════════════════════════════════════════════════════════════════════════
+function renderDashboard() {
+  // ── Garagem stats ───────────────────────────────────────────────────────────
+  let garUnidades = 0, garValor = 0, garBaixo = 0, garZerados = 0;
+  estoque.forEach(p => {
+    const s = p.qi + somaEnt(p.cod) - somaRet(p.cod);
+    garUnidades += Math.max(s, 0);
+    garValor    += p.valor || 0;
+    if (s <= 0) garZerados++;
+    else if (s <= 3) garBaixo++;
+  });
+
+  // ── Nego stats ──────────────────────────────────────────────────────────────
+  let negUnidades = 0, negValor = 0, negBaixo = 0, negZerados = 0;
+  negoEstoque.forEach(p => {
+    const s = p.qi + somaEntNego(p.cod) - somaRetNego(p.cod);
+    negUnidades += Math.max(s, 0);
+    negValor    += p.valor || 0;
+    if (s <= 0) negZerados++;
+    else if (s <= 3) negBaixo++;
+  });
+
+  const set = (id, val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
+  set('d-gar-tipos',    estoque.length);
+  set('d-gar-unidades', garUnidades);
+  set('d-gar-valor',    fmtMoeda(garValor));
+  set('d-gar-baixo',    garBaixo);
+  set('d-gar-zerados',  garZerados);
+  set('d-neg-tipos',    negoEstoque.length);
+  set('d-neg-unidades', negUnidades);
+  set('d-neg-valor',    fmtMoeda(negValor));
+  set('d-neg-baixo',    negBaixo);
+  set('d-neg-zerados',  negZerados);
+
+  // ── Alertas críticos ────────────────────────────────────────────────────────
+  const totalZerados = garZerados + negZerados;
+  const alertasEl = document.getElementById('dash-alertas');
+  if (alertasEl) {
+    alertasEl.innerHTML = totalZerados > 0
+      ? `<div style="background:#FFF0F0;border:1px solid #FFCDD2;border-left:4px solid var(--red);border-radius:8px;padding:12px 18px;font-size:13px;color:var(--red);font-weight:700">
+          ⚠ ${totalZerados} peça${totalZerados>1?'s':''} com saldo zerado — verifique o estoque
+        </div>`
+      : '';
+  }
+
+  // ── Peças críticas (zeradas + baixas de ambos) ──────────────────────────────
+  const criticas = [];
+  estoque.forEach(p => {
+    const s = p.qi + somaEnt(p.cod) - somaRet(p.cod);
+    if (s <= 3) criticas.push({...p, saldo:s, local:'Garagem'});
+  });
+  negoEstoque.forEach(p => {
+    const s = p.qi + somaEntNego(p.cod) - somaRetNego(p.cod);
+    if (s <= 3) criticas.push({...p, saldo:s, local:'Sala Nego'});
+  });
+  criticas.sort((a,b) => a.saldo - b.saldo);
+
+  const critCnt = document.getElementById('d-criticas-cnt');
+  if (critCnt) critCnt.textContent = criticas.length;
+
+  const critLista = document.getElementById('d-criticas-lista');
+  if (critLista) {
+    if (criticas.length === 0) {
+      critLista.innerHTML = '<div style="padding:24px;text-align:center;color:var(--muted);font-size:13px">Nenhuma peça crítica</div>';
+    } else {
+      critLista.innerHTML = criticas.map(p => {
+        const cor = p.saldo <= 0 ? 'var(--red)' : 'var(--orange)';
+        const bg  = p.saldo <= 0 ? '#FFF0F0' : '#FFF8F0';
+        const fotoHtml = p.foto
+          ? `<img src="${p.foto}" style="width:38px;height:38px;object-fit:cover;border-radius:5px;flex-shrink:0;border:1px solid var(--border)">`
+          : `<div style="width:38px;height:38px;background:var(--bg);border-radius:5px;flex-shrink:0;border:1px solid var(--border)"></div>`;
+        return `<div style="display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--border);background:${bg}">
+          ${fotoHtml}
+          <div style="flex:1;min-width:0">
+            <div style="font-size:11px;font-weight:800;color:var(--blue)">${esc(p.cod)}</div>
+            <div style="font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(p.prod)}</div>
+            <div style="font-size:10px;color:var(--muted)">${p.local}</div>
+          </div>
+          <div style="font-size:22px;font-weight:900;color:${cor};letter-spacing:-.02em">${p.saldo}</div>
+        </div>`;
+      }).join('');
+    }
+  }
+
+  // ── Movimentações recentes (últimas 15 de cada) ─────────────────────────────
+  const movs = [];
+  retiradas.slice(0,15).forEach(r => movs.push({...r, tipo:'retirada', local:'Garagem'}));
+  entradas.slice(0,15).forEach(e => movs.push({...e, tipo:'entrada', local:'Garagem'}));
+  negoRetiradas.slice(0,8).forEach(r => movs.push({...r, tipo:'retirada', local:'Sala Nego'}));
+  negoEntradas.slice(0,8).forEach(e => movs.push({...e, tipo:'entrada', local:'Sala Nego'}));
+  movs.sort((a,b) => new Date(b.data) - new Date(a.data));
+
+  const movLista = document.getElementById('d-mov-lista');
+  if (movLista) {
+    if (movs.length === 0) {
+      movLista.innerHTML = '<div style="padding:24px;text-align:center;color:var(--muted);font-size:13px">Nenhuma movimentação registrada</div>';
+    } else {
+      movLista.innerHTML = movs.slice(0,20).map(m => {
+        const isEnt = m.tipo === 'entrada';
+        const cor   = isEnt ? '#1A7A3A' : '#C62828';
+        const sinal = isEnt ? '+' : '-';
+        const icon  = isEnt
+          ? `<div style="width:28px;height:28px;background:#E4F5EA;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:900;color:#1A7A3A">+</div>`
+          : `<div style="width:28px;height:28px;background:#FDEAEA;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:900;color:#C62828">−</div>`;
+        return `<div style="display:flex;align-items:center;gap:10px;padding:9px 16px;border-bottom:1px solid var(--border)">
+          ${icon}
+          <div style="flex:1;min-width:0">
+            <div style="font-size:12px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(m.prod)}</div>
+            <div style="font-size:10px;color:var(--muted)">${fmtData(m.data)} · ${esc(m.resp)} · ${m.local}</div>
+          </div>
+          <div style="font-size:15px;font-weight:800;color:${cor};flex-shrink:0">${sinal}${m.qtd}</div>
+        </div>`;
+      }).join('');
+    }
+  }
 }
 
 // ── Busca global (topbar) ──────────────────────────────────────────────────────
