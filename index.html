@@ -1298,9 +1298,9 @@ tbody td.tl { text-align: left; }
       </div>
 
       <div class="form-field">
-        <label>Valor Total (R$)</label>
+        <label>Valor Unitário (R$)</label>
         <input type="number" id="m-valor" placeholder="0,00" min="0" step="0.01">
-        <span class="form-hint">Valor total do item em estoque</span>
+        <span class="form-hint">Custo de aquisição por unidade</span>
       </div>
       <div class="form-field">
         <label>Código Original</label>
@@ -2284,7 +2284,7 @@ function atualizarDashboard() {
   estoque.forEach(p => {
     const saldo = p.qi + somaEnt(p.cod) - somaRet(p.cod);
     totalUnidades += Math.max(saldo, 0);
-    valorTotal += (p.valor || 0);
+    valorTotal += Math.max(saldo, 0) * (p.valor || 0);
     if (saldo <= 3) baixoEstoque++;
   });
 
@@ -2372,7 +2372,7 @@ function atualizarDashboardNego() {
   negoEstoque.forEach(p => {
     const saldo = p.qi + somaEntNego(p.cod) - somaRetNego(p.cod);
     totalUnidades += Math.max(saldo, 0);
-    valorTotal    += p.valor || 0;
+    valorTotal    += Math.max(saldo, 0) * (p.valor || 0);
     if (saldo <= 3) baixoEstoque++;
   });
   const movimentos = negoRetiradas.length + negoEntradas.length;
@@ -2684,7 +2684,7 @@ function renderDashboard() {
   estoque.forEach(p => {
     const s = p.qi + somaEnt(p.cod) - somaRet(p.cod);
     garUnidades += Math.max(s, 0);
-    garValor    += p.valor || 0;
+    garValor    += Math.max(s, 0) * (p.valor || 0);
     if (s <= 0) garZerados++;
     else if (s <= 3) garBaixo++;
   });
@@ -2694,7 +2694,7 @@ function renderDashboard() {
   negoEstoque.forEach(p => {
     const s = p.qi + somaEntNego(p.cod) - somaRetNego(p.cod);
     negUnidades += Math.max(s, 0);
-    negValor    += p.valor || 0;
+    negValor    += Math.max(s, 0) * (p.valor || 0);
     if (s <= 0) negZerados++;
     else if (s <= 3) negBaixo++;
   });
