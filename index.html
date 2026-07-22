@@ -1828,16 +1828,6 @@ async function salvarPeca() {
 
     showLoading('Salvando peça...');
     await sbUpsert('estoque', peca);
-    if (codEdit) {
-      // Sempre zera entradas e retiradas ao editar, para o saldo partir da nova quantidade
-      showLoading('Ajustando movimentações...');
-      await sbDelete('entradas',  `cod=eq.${encodeURIComponent(codNovo)}`);
-      await sbDelete('retiradas', `cod=eq.${encodeURIComponent(codNovo)}`);
-      if (codEdit !== codNovo) {
-        await sbDelete('entradas',  `cod=eq.${encodeURIComponent(codEdit)}`);
-        await sbDelete('retiradas', `cod=eq.${encodeURIComponent(codEdit)}`);
-      }
-    }
     await carregarTudo();
     fecharModal('modal-cadastro');
   } catch(e) { showErro(e.message); hideLoading(); }
@@ -2498,11 +2488,6 @@ async function salvarPecaNego() {
       foto:fotoUrl, paralelos:getParalelos() };
     showLoading('Salvando peça...');
     await sbUpsert('nego_estoque', peca);
-    if (codEdit) {
-      showLoading('Ajustando movimentações...');
-      await sbDelete('nego_entradas',  `cod=eq.${encodeURIComponent(codNovo)}`);
-      await sbDelete('nego_retiradas', `cod=eq.${encodeURIComponent(codNovo)}`);
-    }
     const bspg = document.getElementById('btn-salvar-peca'); if(bspg) bspg.onclick = salvarPeca;
     await carregarNego();
     fecharModal('modal-cadastro');
